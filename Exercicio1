@@ -1,0 +1,20 @@
+package Exercicio_Caelum;
+
+public class Exercicio1 {
+
+    public static void main(String[] args) {
+        /*  
+        for (int i = 0; i < 100; i++) {
+            if(i > 50 && i < 60){
+                continue;
+            }
+            System.out.println(i);
+        }
+         */
+        //Imprimir todos os números de 150 a 300
+        for (int i = 150; i <= 300; i++) {
+            System.out.println(i);
+        }
+    }
+
+}
