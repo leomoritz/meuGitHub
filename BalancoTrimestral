@@ -1,0 +1,23 @@
+package Exercicio_Caelum;
+
+public class BalancoTrimestral {
+
+    public static void main(String[] args) {
+
+        int gastosJaneiro, gastosFevereiro, gastosMarco;
+        gastosJaneiro = 15000;
+        gastosFevereiro = 23000;
+        gastosMarco = 17000;
+        int gastosTrimestre = gastosJaneiro + gastosFevereiro + gastosMarco;
+
+        //IMPRIME
+        System.out.println("Gasto Trimestral = " + gastosTrimestre);
+
+        float mediaMensal = gastosTrimestre / 3;
+
+        //IMPRIME
+        System.out.println("Valor da média mensal = " + mediaMensal);
+
+    }
+
+}
