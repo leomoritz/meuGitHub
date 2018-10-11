@@ -1,0 +1,15 @@
+package Exercicio_Caelum;
+
+public class Exercicio3 {
+    
+    public static void main(String[] args) {
+        
+        for (int i = 0; i <= 100; i++) {
+           int mult = 3;
+           mult = mult*i;
+            System.out.print(mult + ", ");
+        }
+        
+    }
+
+}
