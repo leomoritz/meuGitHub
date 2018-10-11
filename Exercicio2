@@ -1,0 +1,14 @@
+package Exercicio_Caelum;
+
+public class Exercicio2 {
+
+    public static void main(String[] args) {
+
+        //Imprimir a soma de 1 até 10
+        for (int i = 1; i <= 10; i++) {
+            int num = i + i;
+            System.out.println("A soma de " + i + " + " + i + " é = " + num);
+        }
+    }
+
+}
