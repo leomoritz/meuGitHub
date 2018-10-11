@@ -1,0 +1,33 @@
+package Exercicios;
+
+import javax.swing.JOptionPane;
+import javax.swing.Timer;
+
+public class Autenticacao {
+    
+    public static void main(String[] args) throws InterruptedException {
+        String user = "leonidas.rosa";
+        String pass = "Leo123";
+        
+        for (int i = 3; i >= 0; i--) {
+            String userLogin = JOptionPane.showInputDialog(null, "Informe o usuário: ");
+            String passLogin = JOptionPane.showInputDialog(null, "Informe a senha: ");
+            if (userLogin.equals(user) && passLogin.equals(pass)) {
+                i = -1;
+                JOptionPane.showMessageDialog(null, "Successful!!!");
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário/Senha incorretos" + "\nTentativas Restantes: " + i);
+            }
+            if (i == 0) {
+                int esperar = JOptionPane.showConfirmDialog(null, "Aguardar 00:10 segundos?");
+                if (esperar == 0) {
+                    new Thread().sleep(10000);
+                    i = 3;
+                } else {
+                    System.exit(0);
+                }
+            }
+        }
+    }
+    
+}
