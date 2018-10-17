@@ -1,0 +1,26 @@
+package conectdb;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class ConectDB {
+
+    public static void main(String[] args) {
+        String host = "localhost", porta = "1433", user = "sa", pass = "12345678";
+        String url = "jdbc:sqlserver://" + host + ":" + porta + ";instanceName=sqlexpress;databaseName=basetst;user=" + user + ";password=" + pass;
+
+        try {
+
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection conexao = DriverManager.getConnection(url);
+            System.out.println("Conexão realizada com sucesso!");
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.toString());
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+        }
+
+    }
+
+}
