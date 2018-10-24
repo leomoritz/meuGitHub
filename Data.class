@@ -1,0 +1,22 @@
+package BancoExercicio;
+
+import java.util.Date;
+
+public class Data {
+
+    Date data = new Date();
+    int dia;
+    int mes;
+    int ano;
+
+    public String formatada() {
+        String dataCompleta = String.format(this.dia + "/" + this.mes + "/" + this.ano);
+        return dataCompleta;
+    }
+
+    public void informaData(int dia, int mes, int ano) {
+        this.dia = dia;
+        this.mes = mes;
+        this.ano = ano;
+    }
+}
