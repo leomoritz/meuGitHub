@@ -1,0 +1,198 @@
+package BancoExercicio;
+
+import java.util.Random;
+import javax.swing.JOptionPane;
+
+public class Conta {
+
+    public Cliente titular = new Cliente();
+    public int numConta;
+    public String agencia;
+    public String tipoConta;
+    public double saldo = 0;
+    private int quantidadeSaque;
+    public String dataAbertura;
+    public String usuario;
+    public String senha;
+
+    public boolean cadastro() {
+        JOptionPane.showMessageDialog(null, "Bem vindo a sua abertura de conta!!!" + "\nObrigado por confiar na Sancred.");
+        this.titular.nomeCompleto = JOptionPane.showInputDialog("Informe o nome do titular");
+        this.titular.cpf = JOptionPane.showInputDialog("Informe o CPF do titular");
+        this.agencia = JOptionPane.showInputDialog("Informe a agência");
+        this.tipoConta = JOptionPane.showInputDialog("Informe o tipo da conta");
+        this.dataAbertura = JOptionPane.showInputDialog("Informe a data de abertura da conta");
+        this.usuario = JOptionPane.showInputDialog("Informe o usuario de acesso a conta");
+        this.senha = JOptionPane.showInputDialog("Informe a senha de acesso a conta");
+        Random geraConta = new Random();
+        this.numConta = geraConta.nextInt(Integer.MAX_VALUE);
+        double deposito;
+        do {
+            deposito = Double.parseDouble(JOptionPane.showInputDialog("É necessário realizar um depósito minimo de R$50 na conta para que seja concluída a abertura."
+                    + "\nFavor informar o valor que deseja depositar"));
+            if (deposito >= 50) {
+                this.Deposita(deposito);
+
+            } else {
+                JOptionPane.showMessageDialog(null, "Não foi possível realizar a operação. O valor mínimo para abertura da conta é de R$50."
+                        + "\nTente novamente.");
+            }
+        } while (deposito < 50);
+        int confirma = JOptionPane.showConfirmDialog(null, "Confirma a abertura de conta?");
+        if (confirma == 0) {
+            this.exibeMenu();
+            return true;
+        } else {
+            this.escolheOpcao(5);
+            return false;
+        }
+    }
+
+    public void exibeMenu() {
+        int opcao;
+        this.escolheOpcao(opcao = Integer.parseInt(JOptionPane.showInputDialog(null, "\tEscolha a opção desejada"
+                + "\n1 - Consultar Extrato"
+                + "\n2 - Saque"
+                + "\n3 - Deposito"
+                + "\n4 - Transferências"
+                + "\n5 - Rendimentos da Conta"
+                + "\n6 - Sair")));
+    }
+
+    public void escolheOpcao(int opcao) {
+        boolean validaSenha;
+        int operacao;
+        if (opcao != 6) {
+            do {
+                validaSenha = this.Acesso(this.usuario, JOptionPane.showInputDialog("Informe sua senha da conta para realizar a operação desejada."));
+                if (validaSenha == false) {
+                    JOptionPane.showMessageDialog(null, "Usuário/senha inválidos. Não foi possível realizar a operação desejada");
+                }
+            } while (validaSenha == false);
+
+        }
+        switch (opcao) {
+            case 1:
+                this.Extrato();
+                operacao = JOptionPane.showConfirmDialog(null, "Deseja realizar outra operação?");
+                if (operacao == 0) {
+                    this.exibeMenu();
+                } else {
+                    this.escolheOpcao(6);
+                }
+                break;
+            case 2:
+                if (quantidadeSaque <= 3) {
+                    double saque = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor para saque."));
+                    if (this.Saca(saque)) {
+                        JOptionPane.showMessageDialog(null, "Valor Sacado: R$" + saque + "\nSaldo em conta: R$" + this.saldo);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Valor não disponível para saque!" + "\nValor Disponível em Conta: R$" + this.saldo);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Limite de saques diários atingidos");
+                }
+                operacao = JOptionPane.showConfirmDialog(null, "Deseja realizar outra operação?");
+                if (operacao == 0) {
+                    this.exibeMenu();
+                } else {
+                    this.escolheOpcao(6);
+                }
+                break;
+            case 3:
+                double deposito = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor que deseja depositar na conta " + this.numConta));
+                if (this.Deposita(deposito)) {
+                    JOptionPane.showMessageDialog(null, "Valor depositado com sucesso na conta " + this.numConta + "\nValor do Deposito: R$" + deposito + "\nSaldo Atual: R$" + this.saldo);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Não foi possível realizar o deposito. Somente são permitidos depósitos a partir de R$10" + "\nTentativa de Depósito: R$" + deposito);
+                }
+                operacao = JOptionPane.showConfirmDialog(null, "Deseja realizar outra operação?");
+                if (operacao == 0) {
+                    this.exibeMenu();
+                } else {
+                    this.escolheOpcao(6);
+                }
+                break;
+            case 4:
+                Conta destino = new Conta();
+                destino.numConta = Integer.parseInt(JOptionPane.showInputDialog(null, "Informe a conta para qual deseja realizar a transferência."));
+                double valorTransfere = Double.parseDouble(JOptionPane.showInputDialog("Informe o valor que deseja transferir para conta " + destino.numConta));
+                this.TransferePara(destino, valorTransfere);
+                JOptionPane.showMessageDialog(null, "Valor da transferência: " + valorTransfere + "\nSaldo Conta: R$" + this.saldo);
+                operacao = JOptionPane.showConfirmDialog(null, "Deseja realizar outra operação?");
+                if (operacao == 0) {
+                    this.exibeMenu();
+                } else {
+                    this.escolheOpcao(6);
+                }
+                break;
+            case 5:
+                JOptionPane.showMessageDialog(null, "Total Rendimentos: R$" + this.calculaRendimento() + "\nSaldo Atualizado: R$" + this.saldo);
+                operacao = JOptionPane.showConfirmDialog(null, "Deseja realizar outra operação?");
+                if (operacao == 0) {
+                    this.exibeMenu();
+                } else {
+                    this.escolheOpcao(6);
+                }
+                break;
+            case 6:
+                JOptionPane.showMessageDialog(null, "Sessão Encerrada. Obrigado!");
+                break;
+        }
+    }
+
+    public boolean Acesso(String usuario, String senha) {
+        if (this.usuario.equals(usuario) && this.senha.equals(senha)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void Extrato() {
+        JOptionPane.showMessageDialog(null, "Nome Titular: "
+                + this.titular.nomeCompleto
+                + "\nCPF: " + this.titular.cpf
+                + "\nAgência: " + this.agencia
+                + " / Conta: " + this.numConta
+                + "\nTipo Conta: " + this.tipoConta
+                + "\nSaldo Conta: R$" + this.saldo);
+    }
+
+    public boolean Saca(double valor) {
+        if (this.saldo < valor) {
+            return false;
+        } else {
+            this.saldo = this.saldo - valor;
+            quantidadeSaque++;
+            return true;
+
+        }
+    }
+
+    public boolean Deposita(double valor) {
+        if (valor > 10) {
+            this.saldo += valor;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean TransferePara(Conta destino, double valor) {
+        boolean retira = this.Saca(valor);
+        if (retira) {
+            destino.Deposita(valor);
+            return true;
+        } else {
+            return false;
+
+        }
+    }
+
+    public double calculaRendimento() {
+        double rendimentos = this.saldo * 0.1;
+        this.saldo += rendimentos;
+        return rendimentos;
+    }
+}
