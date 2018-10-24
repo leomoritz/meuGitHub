@@ -11,7 +11,7 @@ public class Conta {
     public String tipoConta;
     public double saldo = 0;
     private int quantidadeSaque;
-    public String dataAbertura;
+    public Data dataAbertura = new Data();
     public String usuario;
     public String senha;
 
@@ -21,7 +21,7 @@ public class Conta {
         this.titular.cpf = JOptionPane.showInputDialog("Informe o CPF do titular");
         this.agencia = JOptionPane.showInputDialog("Informe a agência");
         this.tipoConta = JOptionPane.showInputDialog("Informe o tipo da conta");
-        this.dataAbertura = JOptionPane.showInputDialog("Informe a data de abertura da conta");
+        this.dataAbertura.informaData(this.dataAbertura.data.getDay(), this.dataAbertura.data.getMonth(), this.dataAbertura.data.getYear());
         this.usuario = JOptionPane.showInputDialog("Informe o usuario de acesso a conta");
         this.senha = JOptionPane.showInputDialog("Informe a senha de acesso a conta");
         Random geraConta = new Random();
@@ -155,7 +155,8 @@ public class Conta {
                 + "\nCPF: " + this.titular.cpf
                 + "\nAgência: " + this.agencia
                 + " / Conta: " + this.numConta
-                + "\nTipo Conta: " + this.tipoConta
+                + "\nTipo Conta: " + this.tipoConta 
+                + "\nData de Abertura: " + this.dataAbertura.formatada()
                 + "\nSaldo Conta: R$" + this.saldo);
     }
 
